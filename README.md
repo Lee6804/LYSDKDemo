@@ -79,6 +79,8 @@ static LYFunctionManager *_instance = nil;
 
 ![image](https://user-images.githubusercontent.com/20941758/167248770-606ca189-ec99-4a6e-a2d1-5262d407f323.png)
   
+![image](https://user-images.githubusercontent.com/20941758/167326566-65247aff-b791-473f-803e-11f16eb3fd98.png)
+  
 **代码示例：**
 <details>
 <summary>LYMoreFuncManager</summary>
