@@ -1,5 +1,6 @@
 # iOS SDK架构设计
-## 一、背景
+
+## 1、背景
 
 目前SDK的设计总体分为两大类型：
 
@@ -7,7 +8,7 @@
 
 2、业务型：在一个大的业务需求（如实现局域网内APP与设备之间进行通讯）前提之下囊括多个不同的功能。例如：局域网SDK，其中可能会包含：局域网控制、局域网OTA、局域网Log传输等一系列功能。
 
-## 二、SDK架构
+## 2、SDK结构
 ### 2.1 功能型SDK
 功能型SDK来讲相对简单，外部调用入口主要集中在LYFunctionManager上，此Manager对外提供两种大类方法既可以满足大部分使用场景。
 
@@ -74,6 +75,16 @@ static LYFunctionManager *_instance = nil;
 
 ### 2.2 业务型SDK
 业务型SDK主要区别在于，一个SDK内包含多个不同功能，在基于一个整体管理类Manager的基础上，分别进行处理对应的功能逻辑。
+  
+**设计思路：**
+
+- SDK仅提供一个主入口Manager
+- 不同功能采用不同Manager进行管理，并在入口Manager中进行实例化
+- 功能Manager采用Protocol方式创建，定义对应的协议方法，并创建一个遵循协议且实现协议方法的功能类
+- 无论入口Manager还是功能Manager，都遵循Delegate+Methods的方式创建
+- 入口Manager一般不提供remove delegate的操作，仅在应用启动时开启监听，全局开启一次即可
+- 功能Manager提供add & remove delegate是由于一个功能在执行完操作后，退出时相当于此Manager已完成所需要做的事情，故无需继续监听
+- 入口Manager中声明功能Mananger时需采用strong修饰
 
 **整体结构示例：**
 
