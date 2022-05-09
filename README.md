@@ -1,5 +1,10 @@
 # iOS SDK架构设计
 
+- [1、背景](#1背景)
+- [2、SDK结构](#2sdk结构)
+  - [2.1 功能型SDK](#21-功能型sdk)
+  - [2.2 业务型SDK](#22-业务型sdk)
+
 ## 1、背景
 
 目前SDK的设计总体分为两大类型：
@@ -78,13 +83,13 @@ static LYFunctionManager *_instance = nil;
   
 **设计思路：**
 
-- SDK仅提供一个主入口Manager
-- 不同功能采用不同Manager进行管理，并在入口Manager中进行实例化
-- 功能Manager采用Protocol方式创建，定义对应的协议方法，并创建一个遵循协议且实现协议方法的功能类
-- 无论入口Manager还是功能Manager，都遵循Delegate+Methods的方式创建
-- 入口Manager一般不提供remove delegate的操作，仅在应用启动时开启监听，全局开启一次即可
+- SDK`仅`提供一个主入口Manager
+- 不同功能采用不同Manager进行管理，并在入口Manager中进行声明
+- 功能Manager采用`Protocol`方式创建，定义对应的协议方法，并创建一个遵循协议且实现协议方法的功能类
+- 无论入口Manager还是功能Manager，都遵循`Delegate+Methods`的方式创建
+- 入口Manager一般`不提供`remove delegate的操作，仅在应用启动时开启监听，`全局add一次即可`
 - 功能Manager提供add & remove delegate是由于一个功能在执行完操作后，退出时相当于此Manager已完成所需要做的事情，故无需继续监听
-- 入口Manager中声明功能Mananger时需采用strong修饰
+- 入口Manager中声明功能Mananger时需采用`strong`修饰
 
 **整体结构示例：**
 
